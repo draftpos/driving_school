@@ -18,8 +18,8 @@ This guide covers installation, configuration, and technical details for system 
 
 ## Prerequisites
 
-- Frappe Framework v14 or v15
-- ERPNext (optional, but recommended)
+- Frappe Framework v14 or v15 (required)
+- ERPNext (optional - not required, app works standalone with just Frappe)
 - Python 3.10+
 - Node.js 18+
 - MariaDB 10.6+ or MySQL 8.0+
