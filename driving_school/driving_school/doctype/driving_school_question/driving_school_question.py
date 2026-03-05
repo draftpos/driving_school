@@ -6,7 +6,8 @@ from frappe.model.document import Document
 
 
 class DrivingSchoolQuestion(Document):
-	def validate(self):
+	def before_save(self):
+		"""Validate options only before actual save, not during form interactions"""
 		if self.options_are_images:
 			if not self.option_1_image or not self.option_2_image or not self.option_3_image:
 				frappe.throw("All option images are required when 'Options are Images' is checked")
