@@ -29,7 +29,13 @@ This guide covers installation, configuration, and technical details for system 
 
 ## Installation
 
-### Step 1: Clone the App
+There are two installation scenarios:
+- **Fresh Installation:** The app is not yet on your bench (follow all steps)
+- **Install on Additional Site:** The app is already on your bench, you just need to install it on a new site (skip to [Install on Additional Site](#install-on-additional-site))
+
+### Fresh Installation
+
+#### Step 1: Clone the App
 
 ```bash
 cd /path/to/frappe-bench
@@ -38,7 +44,7 @@ cd /path/to/frappe-bench
 bench get-app --skip-assets https://github.com/draftpos/driving_school.git
 ```
 
-### Step 2: Add to apps.txt
+#### Step 2: Add to apps.txt
 
 **Important:** The `bench get-app` command may not automatically add the app to `apps.txt`. You must verify and add it manually if needed.
 
@@ -63,13 +69,13 @@ Save and exit (Ctrl+X, then Y, then Enter in nano).
 
 **Note:** Do NOT use `echo "driving_school" >> sites/apps.txt` as it may not add a proper line break and can corrupt the file.
 
-### Step 3: Build Assets
+#### Step 3: Build Assets
 
 ```bash
 bench build --app driving_school
 ```
 
-### Step 4: Install on Site
+#### Step 4: Install on Site
 
 ```bash
 bench --site YOUR_SITE_NAME install-app driving_school
@@ -77,13 +83,13 @@ bench --site YOUR_SITE_NAME install-app driving_school
 
 Replace `YOUR_SITE_NAME` with your actual site name (e.g., `mysite.local` or `erp.mycompany.com`).
 
-### Step 5: Run Migrations
+#### Step 5: Run Migrations
 
 ```bash
 bench --site YOUR_SITE_NAME migrate
 ```
 
-### Step 6: Restart Services
+#### Step 6: Restart Services
 
 For development:
 ```bash
@@ -95,11 +101,43 @@ For production:
 sudo supervisorctl restart all
 ```
 
-### Step 7: Clear Cache (Optional but Recommended)
+#### Step 7: Clear Cache (Optional but Recommended)
 
 ```bash
 bench --site YOUR_SITE_NAME clear-cache
 ```
+
+---
+
+### Install on Additional Site
+
+If the Driving School app is already installed on your bench (exists in `apps/driving_school`) and you want to install it on another site:
+
+```bash
+cd /path/to/frappe-bench
+
+# Install the app on the new site
+bench --site YOUR_NEW_SITE install-app driving_school
+
+# Run migrations
+bench --site YOUR_NEW_SITE migrate
+
+# Clear cache
+bench --site YOUR_NEW_SITE clear-cache
+```
+
+For production, restart services:
+```bash
+sudo supervisorctl restart all
+```
+
+**Verify Installation:**
+```bash
+# List apps installed on the site
+bench --site YOUR_NEW_SITE list-apps
+```
+
+You should see `driving_school` in the list.
 
 ---
 
