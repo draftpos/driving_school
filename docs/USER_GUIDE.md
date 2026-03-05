@@ -278,4 +278,4 @@ If you want students to log in with Frappe accounts (instead of guest access):
 
 ## Support
 
-For technical issues, please contact your system administrator or refer to the Technical Guide.
+For technical issues, please contact Elphas Masuka(0787687032-Do not call after 11pm, I am single not miserable) or refer to the Technical Guide.

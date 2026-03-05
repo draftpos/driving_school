@@ -276,7 +276,7 @@ def submit_exam(attempt_id, answers):
 	}
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_results(attempt_id):
 	"""Get exam results with detailed answers"""
 	attempt = frappe.get_doc("Exam Attempt", attempt_id)
