@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving School | Test</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #7a2e90;
+            --primary-dark: #5c2270;
+            --purple-color: #7a2e90;
+            --purple-light: #9b4db0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .login-card .logo {
+            max-height: 100px;
+            max-width: 200px;
+            display: block;
+            margin: 0 auto 20px;
+            object-fit: contain;
+        }
+
+        .login-card .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(122, 46, 144, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        /* Exam List Styles */
+        .exam-list-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .exam-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            transition: transform 0.2s;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Assessment/Test Page Styles */
+        .assessment-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .navbar-top {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-box {
+            background: var(--purple-color);
+            color: white;
+            padding: 15px 35px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-radius: 8px;
+            position: fixed;
+            top: 15px;
+            right: 400px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .test-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        .question-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .question-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .question-image {
+            max-height: 150px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .options-container {
+            margin-top: 20px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary-color);
+            background: #f8f0fa;
+        }
+
+        .option-item.selected {
+            border-color: var(--primary-color);
+            background: #f0e6f3;
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 3px;
+            transform: scale(1.3);
+            accent-color: var(--primary-color);
+        }
+
+        .option-label {
+            font-size: 1rem;
+            flex: 1;
+        }
+
+        .option-image {
+            max-height: 120px;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+
+        .option-text {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        /* Navigation Tabs */
+        .question-tabs-container {
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            padding: 15px;
+        }
+
+        .question-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .question-tab {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .question-tab:hover {
+            border-color: var(--primary-color);
+        }
+
+        .question-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .question-tab.answered {
+            background: #d4b8dc;
+            border-color: var(--primary-color);
+        }
+
+        .question-tab.answered.active {
+            background: var(--primary-color);
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-nav {
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .btn-finalize {
+            background: var(--purple-light);
+            border-color: var(--purple-light);
+            color: white;
+        }
+
+        .btn-finalize:hover {
+            background: var(--purple-color);
+            border-color: var(--purple-color);
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content-custom {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        /* Results Page */
+        .results-container {
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: #f5f5f5;
+        }
+
+        .results-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .score-circle.passed {
+            background: #f0e6f3;
+            color: #5c2270;
+            border: 5px solid #7a2e90;
+        }
+
+        .score-circle.failed {
+            background: #f8d7da;
+            color: #721c24;
+            border: 5px solid #dc3545;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+
+        /* Loading Spinner */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timer-box {
+                position: relative;
+                right: auto;
+                top: auto;
+            }
+
+            .question-tab {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+            }
+
+            .btn-nav {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useRef } = React;
+
+        // API Helper
+        const api = {
+            csrfTokenPromise: null,
+            csrfToken: null,
+
+            init: function() {
+                this.csrfTokenPromise = fetch('/api/method/frappe.auth.get_csrf_token')
+                    .then(r => r.json())
+                    .then(d => {
+                        this.csrfToken = d.message;
+                        window.csrf_token = d.message;
+                        console.log('CSRF token loaded');
+                        return d.message;
+                    })
+                    .catch(err => {
+                        console.error('Failed to get CSRF token:', err);
+                        return '';
+                    });
+            },
+
+            // GET request for read-only operations (no CSRF needed)
+            get: async function(method, args = {}) {
+                try {
+                    const params = new URLSearchParams(args).toString();
+                    const url = '/api/method/' + method + (params ? '?' + params : '');
+
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const text = await response.text();
+                        console.error('API GET error:', text);
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    if (data.exc) {
+                        throw new Error(data._server_messages || data.exc);
+                    }
+                    return data.message;
+                } catch (err) {
+                    console.error('API GET failed:', method, err);
+                    throw err;
+                }
+            },
+
+            // POST request for write operations (CSRF required)
+            post: async function(method, args = {}) {
+                // Wait for CSRF token if not ready
+                if (!this.csrfToken && this.csrfTokenPromise) {
+                    await this.csrfTokenPromise;
+                }
+
+                try {
+                    const response = await fetch('/api/method/' + method, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-Frappe-CSRF-Token': this.csrfToken || ''
+                        },
+                        body: JSON.stringify(args)
+                    });
+
+                    if (!response.ok) {
+                        const text = await response.text();
+                        console.error('API POST error:', text);
+                        throw new Error(`HTTP ${response.status}: ${text.substring(0, 200)}`);
+                    }
+
+                    const data = await response.json();
+                    if (data.exc) {
+                        console.error('API exception:', data.exc);
+                        throw new Error(data._server_messages || data.exc);
+                    }
+                    return data.message;
+                } catch (err) {
+                    console.error('API POST failed:', method, err);
+                    throw err;
+                }
+            },
+
+            // Alias for backwards compatibility
+            call: function(method, args = {}) {
+                return this.post(method, args);
+            },
+
+            // Helper to get file URL (handles private files)
+            getFileUrl: function(url) {
+                if (!url) return null;
+                // If it's a private file, use the proxy API
+                if (url.startsWith('/private/files/')) {
+                    return '/api/method/driving_school.api.files.get_file?file_url=' + encodeURIComponent(url);
+                }
+                // Public files can be accessed directly
+                return url;
+            }
+        };
+
+        // Initialize API (get CSRF token)
+        api.init();
+
+        // Login Page Component
+        function LoginPage({ onLogin, settings }) {
+            const [formData, setFormData] = useState({
+                firstName: '',
+                lastName: '',
+                idNumber: '',
+                licenseClass: 'Class 1'
+            });
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setError('');
+
+                try {
+                    const result = await api.call('driving_school.api.student.register_student', {
+                        first_name: formData.firstName,
+                        last_name: formData.lastName,
+                        id_number: formData.idNumber,
+                        license_class: formData.licenseClass
+                    });
+
+                    onLogin({
+                        studentId: result.student_id,
+                        fullName: result.full_name,
+                        idNumber: result.id_number,
+                        licenseClass: result.license_class
+                    });
+                } catch (err) {
+                    console.error('Registration error:', err);
+                    let errorMsg = 'Failed to register. Please try again.';
+                    if (err.message) {
+                        // Try to extract a user-friendly message
+                        if (err.message.includes('CSRF')) {
+                            errorMsg = 'Session expired. Please refresh the page.';
+                        } else if (err.message.includes('HTTP')) {
+                            errorMsg = 'Server error. Please try again later.';
+                        }
+                    }
+                    setError(errorMsg);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const schoolName = settings.school_name || 'Driving School';
+            const logoUrl = api.getFileUrl(settings.logo);
+
+            return (
+                <div className="login-container">
+                    <div className="login-card">
+                        {logoUrl ? (
+                            <img
+                                src={logoUrl}
+                                alt={schoolName}
+                                className="logo"
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    if (e.target.nextSibling) {
+                                        e.target.nextSibling.style.display = 'flex';
+                                    }
+                                }}
+                            />
+                        ) : null}
+                        <div
+                            className="logo-placeholder"
+                            style={{display: logoUrl ? 'none' : 'flex'}}
+                        >
+                            <i className="fas fa-car"></i>
+                        </div>
+                        <h2>{schoolName}</h2>
+                        <p className="text-center text-muted mb-4">Enter your details to begin</p>
+
+                        {error && (
+                            <div className="alert alert-danger">{error}</div>
+                        )}
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label className="form-label">First Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={formData.firstName}
+                                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <label className="form-label">Last Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={formData.lastName}
+                                    onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <label className="form-label">ID Number</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="e.g., 01-122367X23"
+                                    value={formData.idNumber}
+                                    onChange={(e) => setFormData({...formData, idNumber: e.target.value})}
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="form-label">License Class</label>
+                                <select
+                                    className="form-select"
+                                    value={formData.licenseClass}
+                                    onChange={(e) => setFormData({...formData, licenseClass: e.target.value})}
+                                >
+                                    <option value="Class 1">Class 1</option>
+                                    <option value="Class 2">Class 2</option>
+                                    <option value="Class 4">Class 4</option>
+                                    <option value="Class 2 & 4">Class 2 & 4</option>
+                                </select>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary w-100 py-2"
+                                disabled={loading}
+                            >
+                                {loading ? 'Please wait...' : 'Continue'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Exam List Component
+        function ExamListPage({ student, settings, onStartExam, onLogout }) {
+            const [exams, setExams] = useState([]);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                loadExams();
+            }, []);
+
+            const loadExams = async () => {
+                try {
+                    const result = await api.get('driving_school.api.student.get_exams', {
+                        student_id: student.studentId
+                    });
+                    setExams(result || []);
+                } catch (err) {
+                    console.error('Failed to load exams:', err);
+                    setExams([]);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            if (loading) {
+                return (
+                    <div className="loading-container">
+                        <div className="spinner"></div>
+                        <p className="mt-3">Loading exams...</p>
+                    </div>
+                );
+            }
+
+            return (
+                <div>
+                    <nav className="navbar navbar-dark" style={{background: 'var(--primary-color)'}}>
+                        <div className="container">
+                            <span className="navbar-brand">{settings.school_name || 'Driving School'}</span>
+                            <div className="d-flex align-items-center text-white">
+                                <span className="me-3">{student.fullName}</span>
+                                <button className="btn btn-outline-light btn-sm" onClick={onLogout}>
+                                    <i className="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div className="exam-list-container">
+                        <h3 className="mb-4">Available Examinations</h3>
+
+                        {exams.length === 0 ? (
+                            <div className="alert alert-info">
+                                No exams available at the moment.
+                            </div>
+                        ) : (
+                            exams.map(exam => (
+                                <div key={exam.name} className="exam-card">
+                                    <div className="row align-items-center">
+                                        <div className="col-md-8">
+                                            <h4>{exam.exam_name}</h4>
+                                            {exam.description && (
+                                                <p className="text-muted mb-2">{exam.description}</p>
+                                            )}
+                                            <div className="d-flex gap-4 text-muted">
+                                                <span><i className="fas fa-clock"></i> {exam.duration} mins</span>
+                                                <span><i className="fas fa-list"></i> {settings.questions_per_exam || 25} questions</span>
+                                                <span><i className="fas fa-check-circle"></i> Pass: {exam.pass_mark}%</span>
+                                            </div>
+
+                                            {exam.has_attempted && exam.last_attempt && (
+                                                <div className="mt-2">
+                                                    <span className={`badge ${exam.last_attempt.passed ? 'bg-success' : 'bg-danger'}`}>
+                                                        Last score: {Number(exam.last_attempt.score_percentage).toFixed(2)}%
+                                                        {exam.last_attempt.passed ? ' - PASSED' : ' - FAILED'}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="col-md-4 text-end">
+                                            {(!exam.has_attempted || exam.can_retake) ? (
+                                                <button
+                                                    className="btn btn-primary btn-lg"
+                                                    onClick={() => onStartExam(exam.name)}
+                                                >
+                                                    {exam.has_attempted ? 'Retake Exam' : 'Start Exam'}
+                                                </button>
+                                            ) : (
+                                                <span className="text-muted">
+                                                    Retake available: {new Date(exam.retake_available_date).toLocaleDateString()}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Pre-Exam Info Component
+        function PreExamPage({ exam, settings, onBegin, onBack }) {
+            return (
+                <div className="login-container">
+                    <div className="login-card" style={{maxWidth: '550px'}}>
+                        <h2 className="mb-4">{exam.exam_name}</h2>
+
+                        <div className="mb-4">
+                            <h5>Exam Details</h5>
+                            <ul className="list-unstyled">
+                                <li className="mb-2">
+                                    <i className="fas fa-clock text-primary me-2"></i>
+                                    Duration: <strong>{settings.exam_duration} minutes</strong>
+                                </li>
+                                <li className="mb-2">
+                                    <i className="fas fa-list text-primary me-2"></i>
+                                    Questions: <strong>{settings.questions_per_exam || 25}</strong>
+                                </li>
+                                <li className="mb-2">
+                                    <i className="fas fa-check-circle text-primary me-2"></i>
+                                    Pass Mark: <strong>{settings.pass_mark}%</strong>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="alert alert-warning">
+                            <h6>Terms & Conditions</h6>
+                            <ul className="mb-0 small">
+                                <li>Once started, the timer cannot be paused</li>
+                                <li>Exam will auto-submit when time expires</li>
+                                <li>You can navigate between questions freely</li>
+                                <li>Click "Finalize Exam" when done</li>
+                            </ul>
+                        </div>
+
+                        <div className="d-flex gap-3 mt-4">
+                            <button className="btn btn-secondary flex-fill" onClick={onBack}>
+                                Back
+                            </button>
+                            <button className="btn btn-primary flex-fill" onClick={onBegin}>
+                                Begin Assessment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main Assessment/Test Component
+        function AssessmentPage({ student, examName, settings, onComplete, onLogout }) {
+            const [loading, setLoading] = useState(true);
+            const [examData, setExamData] = useState(null);
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [timeLeft, setTimeLeft] = useState(0);
+            const [showConfirmModal, setShowConfirmModal] = useState(false);
+            const [submitting, setSubmitting] = useState(false);
+            const timerRef = useRef(null);
+
+            useEffect(() => {
+                startExam();
+                return () => {
+                    if (timerRef.current) clearInterval(timerRef.current);
+                };
+            }, []);
+
+            useEffect(() => {
+                if (timeLeft > 0) {
+                    timerRef.current = setTimeout(() => {
+                        setTimeLeft(t => t - 1);
+                    }, 1000);
+                } else if (timeLeft === 0 && examData) {
+                    // Time's up - auto submit
+                    handleSubmit(true);
+                }
+                return () => {
+                    if (timerRef.current) clearTimeout(timerRef.current);
+                };
+            }, [timeLeft, examData]);
+
+            const startExam = async () => {
+                try {
+                    const result = await api.call('driving_school.api.student.start_exam', {
+                        student_id: student.studentId,
+                        exam_name: examName
+                    });
+                    setExamData(result);
+                    setTimeLeft(result.duration_minutes * 60);
+                } catch (err) {
+                    console.error(err);
+                    alert('Failed to start exam. Please try again.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')} Min`;
+            };
+
+            const handleAnswer = (questionName, answerValue) => {
+                setAnswers(prev => ({
+                    ...prev,
+                    [questionName]: answerValue
+                }));
+            };
+
+            const handleSubmit = async (autoSubmit = false) => {
+                if (submitting) return;
+
+                setSubmitting(true);
+                setShowConfirmModal(false);
+
+                try {
+                    // Prepare answers array
+                    const answersArray = examData.questions.map(q => ({
+                        question: q.name,
+                        selected_answer: answers[q.name] || null
+                    }));
+
+                    const result = await api.call('driving_school.api.student.submit_exam', {
+                        attempt_id: examData.attempt_id,
+                        answers: JSON.stringify(answersArray)
+                    });
+
+                    onComplete(result);
+                } catch (err) {
+                    console.error(err);
+                    alert('Failed to submit exam. Please try again.');
+                    setSubmitting(false);
+                }
+            };
+
+            if (loading) {
+                return (
+                    <div className="loading-container">
+                        <div className="spinner"></div>
+                        <p className="mt-3">Loading exam...</p>
+                    </div>
+                );
+            }
+
+            if (!examData) {
+                return (
+                    <div className="loading-container">
+                        <p>Failed to load exam.</p>
+                        <button className="btn btn-primary" onClick={() => window.location.reload()}>
+                            Try Again
+                        </button>
+                    </div>
+                );
+            }
+
+            const question = examData.questions[currentQuestion];
+
+            return (
+                <div className="assessment-container">
+                    {/* Top Navbar */}
+                    <div className="navbar-top">
+                        <div className="d-flex align-items-center">
+                            <span className="fw-bold">{settings.school_name || 'Driving School'}</span>
+                        </div>
+
+                        <div className="timer-box">
+                            {formatTime(timeLeft)}
+                        </div>
+
+                        <div className="user-info">
+                            <span>{student.fullName}</span>
+                            <div className="user-avatar">
+                                <i className="fas fa-user text-secondary"></i>
+                            </div>
+                            <button className="btn btn-outline-light btn-sm" onClick={onLogout}>
+                                <i className="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Question Content */}
+                    <div className="test-content">
+                        <div className="question-container">
+                            <div className="question-number">
+                                <span className="badge bg-secondary me-2">{currentQuestion + 1}</span>
+                                of {examData.questions.length}
+                            </div>
+
+                            <div className="question-text">
+                                {question.question_text}
+                            </div>
+
+                            {question.question_image && (
+                                <img
+                                    src={api.getFileUrl(question.question_image)}
+                                    alt="Question"
+                                    className="question-image"
+                                />
+                            )}
+
+                            <div className="options-container">
+                                {[1, 2, 3].map(optNum => {
+                                    const isImageOption = question.options_are_images;
+                                    const optionText = question[`option_${optNum}`];
+                                    const optionImage = api.getFileUrl(question[`option_${optNum}_image`]);
+                                    const optionLabel = question[`option_${optNum}_label`];
+                                    const isSelected = answers[question.name] === String(optNum);
+
+                                    if (!optionText && !optionImage) return null;
+
+                                    return (
+                                        <div
+                                            key={optNum}
+                                            className={`option-item ${isSelected ? 'selected' : ''}`}
+                                            onClick={() => handleAnswer(question.name, String(optNum))}
+                                        >
+                                            <input
+                                                type="radio"
+                                                name={`q_${question.name}`}
+                                                checked={isSelected}
+                                                onChange={() => handleAnswer(question.name, String(optNum))}
+                                            />
+
+                                            {isImageOption && optionImage ? (
+                                                <div>
+                                                    <img src={optionImage} alt={`Option ${optNum}`} className="option-image" />
+                                                    {optionLabel && <div className="option-text">{optionLabel}</div>}
+                                                </div>
+                                            ) : (
+                                                <label className="option-label">{optionText}</label>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Navigation Buttons */}
+                            <div className="nav-buttons">
+                                <div>
+                                    <button
+                                        className="btn btn-primary btn-nav me-2"
+                                        onClick={() => setCurrentQuestion(q => Math.max(0, q - 1))}
+                                        disabled={currentQuestion === 0}
+                                    >
+                                        Previous
+                                    </button>
+                                    <button
+                                        className="btn btn-success btn-nav"
+                                        onClick={() => setCurrentQuestion(q => Math.min(examData.questions.length - 1, q + 1))}
+                                        disabled={currentQuestion === examData.questions.length - 1}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                                <button
+                                    className="btn btn-finalize btn-nav"
+                                    onClick={() => setShowConfirmModal(true)}
+                                    disabled={submitting}
+                                >
+                                    Finalize Exam
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Question Tabs */}
+                    <div className="question-tabs-container">
+                        <div className="question-tabs">
+                            {examData.questions.map((q, idx) => (
+                                <div
+                                    key={q.name}
+                                    className={`question-tab ${idx === currentQuestion ? 'active' : ''} ${answers[q.name] ? 'answered' : ''}`}
+                                    onClick={() => setCurrentQuestion(idx)}
+                                >
+                                    {idx + 1}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Confirm Modal */}
+                    {showConfirmModal && (
+                        <div className="modal-overlay">
+                            <div className="modal-content-custom">
+                                <h4>Submit Exam?</h4>
+                                <p>
+                                    You have answered {Object.keys(answers).length} of {examData.questions.length} questions.
+                                </p>
+                                <p>Are you sure you want to submit your exam?</p>
+                                <div className="modal-buttons">
+                                    <button
+                                        className="btn btn-secondary px-4"
+                                        onClick={() => setShowConfirmModal(false)}
+                                    >
+                                        No
+                                    </button>
+                                    <button
+                                        className="btn btn-success px-4"
+                                        onClick={() => handleSubmit(false)}
+                                    >
+                                        Yes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Submitting Overlay */}
+                    {submitting && (
+                        <div className="modal-overlay">
+                            <div className="modal-content-custom">
+                                <div className="spinner mx-auto mb-3"></div>
+                                <p>Submitting your exam...</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Results Page Component
+        function ResultsPage({ result, settings, onBackToExams }) {
+            const passed = result.passed;
+
+            return (
+                <div className="results-container">
+                    <div className="results-card">
+                        <h2>{settings.school_name || 'Driving School'}</h2>
+                        <h4 className="text-muted">Examination Results</h4>
+
+                        <div className={`score-circle ${passed ? 'passed' : 'failed'}`}>
+                            <span>{result.correct_answers}/{result.total_questions}</span>
+                            <span className="score-label">{Number(result.score_percentage).toFixed(2)}%</span>
+                        </div>
+
+                        <h3 className={passed ? 'text-success' : 'text-danger'}>
+                            {passed ? 'CONGRATULATIONS! YOU PASSED!' : 'UNFORTUNATELY, YOU DID NOT PASS'}
+                        </h3>
+
+                        <div className="mt-4 text-start">
+                            <p><strong>Total Questions:</strong> {result.total_questions}</p>
+                            <p><strong>Correct Answers:</strong> {result.correct_answers}</p>
+                            <p><strong>Your Score:</strong> {Number(result.score_percentage).toFixed(2)}%</p>
+                            <p><strong>Pass Mark:</strong> {result.pass_mark}%</p>
+                        </div>
+
+                        <button className="btn btn-primary mt-4" onClick={onBackToExams}>
+                            Back to Exams
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App Component
+        function App() {
+            const [page, setPage] = useState('login'); // login, exams, pre-exam, assessment, results
+            const [student, setStudent] = useState(null);
+            const [settings, setSettings] = useState({});
+            const [selectedExam, setSelectedExam] = useState(null);
+            const [examResult, setExamResult] = useState(null);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                loadSettings();
+
+                // Check for saved session
+                const savedStudent = sessionStorage.getItem('driving_school_student');
+                if (savedStudent) {
+                    setStudent(JSON.parse(savedStudent));
+                    setPage('exams');
+                }
+            }, []);
+
+            const loadSettings = async () => {
+                try {
+                    const result = await api.get('driving_school.api.student.get_settings');
+                    setSettings(result);
+                } catch (err) {
+                    console.error('Failed to load settings:', err);
+                    // Use defaults on error
+                    setSettings({
+                        school_name: 'Driving School',
+                        exam_duration: 10,
+                        pass_mark: 67,
+                        questions_per_exam: 25
+                    });
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleLogin = (studentData) => {
+                setStudent(studentData);
+                sessionStorage.setItem('driving_school_student', JSON.stringify(studentData));
+                setPage('exams');
+            };
+
+            const handleLogout = () => {
+                setStudent(null);
+                sessionStorage.removeItem('driving_school_student');
+                setPage('login');
+            };
+
+            const handleStartExam = (examName) => {
+                setSelectedExam({ name: examName, exam_name: examName });
+                setPage('pre-exam');
+            };
+
+            const handleBeginExam = () => {
+                setPage('assessment');
+            };
+
+            const handleExamComplete = (result) => {
+                setExamResult(result);
+                setPage('results');
+            };
+
+            const handleBackToExams = () => {
+                setExamResult(null);
+                setSelectedExam(null);
+                setPage('exams');
+            };
+
+            if (loading) {
+                return (
+                    <div className="loading-container">
+                        <div className="spinner"></div>
+                        <p className="mt-3">Loading...</p>
+                    </div>
+                );
+            }
+
+            switch (page) {
+                case 'login':
+                    return <LoginPage onLogin={handleLogin} settings={settings} />;
+
+                case 'exams':
+                    return (
+                        <ExamListPage
+                            student={student}
+                            settings={settings}
+                            onStartExam={handleStartExam}
+                            onLogout={handleLogout}
+                        />
+                    );
+
+                case 'pre-exam':
+                    return (
+                        <PreExamPage
+                            exam={selectedExam}
+                            settings={settings}
+                            onBegin={handleBeginExam}
+                            onBack={() => setPage('exams')}
+                        />
+                    );
+
+                case 'assessment':
+                    return (
+                        <AssessmentPage
+                            student={student}
+                            examName={selectedExam.name}
+                            settings={settings}
+                            onComplete={handleExamComplete}
+                            onLogout={handleLogout}
+                        />
+                    );
+
+                case 'results':
+                    return (
+                        <ResultsPage
+                            result={examResult}
+                            settings={settings}
+                            onBackToExams={handleBackToExams}
+                        />
+                    );
+
+                default:
+                    return <LoginPage onLogin={handleLogin} settings={settings} />;
+            }
+        }
+
+        // Render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

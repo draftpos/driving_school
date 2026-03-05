@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "school_name",
+  "column_break_1",
+  "logo",
+  "exam_settings_section",
+  "exam_duration",
+  "column_break_2",
+  "pass_mark",
+  "questions_per_exam",
+  "student_login_section",
+  "allow_retake",
+  "retake_wait_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "school_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "School Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
+  },
+  {
+   "fieldname": "exam_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Exam Settings"
+  },
+  {
+   "default": "10",
+   "fieldname": "exam_duration",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Exam Duration (Minutes)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "67",
+   "fieldname": "pass_mark",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Pass Mark (%)",
+   "reqd": 1
+  },
+  {
+   "default": "25",
+   "fieldname": "questions_per_exam",
+   "fieldtype": "Int",
+   "label": "Questions Per Exam",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student_login_section",
+   "fieldtype": "Section Break",
+   "label": "Student Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_retake",
+   "fieldtype": "Check",
+   "label": "Allow Retake"
+  },
+  {
+   "default": "0",
+   "fieldname": "retake_wait_days",
+   "fieldtype": "Int",
+   "label": "Retake Wait Days"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Driving School",
+ "name": "Driving School Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
