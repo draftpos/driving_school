@@ -29,7 +29,7 @@
  "fields": [
   {
    "fieldname": "question_text",
-   "fieldtype": "Small Text",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Question",
    "reqd": 1
@@ -65,7 +65,7 @@
   },
   {
    "fieldname": "option_1",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Option A",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
@@ -87,7 +87,7 @@
   },
   {
    "fieldname": "option_2",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Option B",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
@@ -109,7 +109,7 @@
   },
   {
    "fieldname": "option_3",
-   "fieldtype": "Text",
+   "fieldtype": "Data",
    "label": "Option C",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
