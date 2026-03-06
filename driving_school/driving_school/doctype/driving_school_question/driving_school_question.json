@@ -73,7 +73,8 @@
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_1_image",
    "fieldtype": "Attach Image",
-   "label": "Option A Image"
+   "label": "Option A Image",
+   "mandatory_depends_on": "eval:doc.options_are_images"
   },
   {
    "depends_on": "eval:doc.options_are_images",
@@ -95,7 +96,8 @@
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_2_image",
    "fieldtype": "Attach Image",
-   "label": "Option B Image"
+   "label": "Option B Image",
+   "mandatory_depends_on": "eval:doc.options_are_images"
   },
   {
    "depends_on": "eval:doc.options_are_images",
@@ -117,7 +119,8 @@
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_3_image",
    "fieldtype": "Attach Image",
-   "label": "Option C Image"
+   "label": "Option C Image",
+   "mandatory_depends_on": "eval:doc.options_are_images"
   },
   {
    "depends_on": "eval:doc.options_are_images",
