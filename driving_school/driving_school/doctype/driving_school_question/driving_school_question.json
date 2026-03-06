@@ -66,20 +66,20 @@
   {
    "fieldname": "option_1",
    "fieldtype": "Data",
-   "label": "Option 1",
+   "label": "Option A",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
   {
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_1_image",
    "fieldtype": "Attach Image",
-   "label": "Option 1 Image"
+   "label": "Option A Image"
   },
   {
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_1_label",
    "fieldtype": "Data",
-   "label": "Option 1 Label"
+   "label": "Option A Label"
   },
   {
    "fieldname": "column_break_2",
@@ -88,20 +88,20 @@
   {
    "fieldname": "option_2",
    "fieldtype": "Data",
-   "label": "Option 2",
+   "label": "Option B",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
   {
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_2_image",
    "fieldtype": "Attach Image",
-   "label": "Option 2 Image"
+   "label": "Option B Image"
   },
   {
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_2_label",
    "fieldtype": "Data",
-   "label": "Option 2 Label"
+   "label": "Option B Label"
   },
   {
    "fieldname": "column_break_3",
@@ -110,20 +110,20 @@
   {
    "fieldname": "option_3",
    "fieldtype": "Data",
-   "label": "Option 3",
+   "label": "Option C",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
   {
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_3_image",
    "fieldtype": "Attach Image",
-   "label": "Option 3 Image"
+   "label": "Option C Image"
   },
   {
    "depends_on": "eval:doc.options_are_images",
    "fieldname": "option_3_label",
    "fieldtype": "Data",
-   "label": "Option 3 Label"
+   "label": "Option C Label"
   },
   {
    "fieldname": "answer_section",
@@ -135,7 +135,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Correct Answer",
-   "options": "1\n2\n3",
+   "options": "A\nB\nC",
    "reqd": 1
   }
  ],

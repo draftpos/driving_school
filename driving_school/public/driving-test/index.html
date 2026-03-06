@@ -230,9 +230,17 @@
         }
 
         .option-item input[type="radio"] {
-            margin-right: 12px;
+            margin-right: 8px;
             transform: scale(1.2);
             accent-color: var(--primary-color);
+        }
+
+        .option-letter {
+            font-weight: bold;
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-right: 10px;
+            min-width: 20px;
         }
 
         .option-label {
@@ -262,13 +270,13 @@
         .tabs-and-buttons {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             gap: 15px;
             max-width: 1100px;
             margin: 0 auto;
         }
 
-        .nav-btn-left, .nav-btn-right {
+        .nav-btn-right {
             display: flex;
             gap: 8px;
             flex-shrink: 0;
@@ -628,7 +636,7 @@
                 gap: 10px;
             }
 
-            .nav-btn-left, .nav-btn-right {
+            .nav-btn-right {
                 order: 2;
             }
 
@@ -652,6 +660,11 @@
             .question-header {
                 flex-direction: column;
                 gap: 5px;
+            }
+
+            .nav-btn-right {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
@@ -1210,31 +1223,33 @@
                             )}
 
                             <div className="options-container">
-                                {[1, 2, 3].map(optNum => {
+                                {['A', 'B', 'C'].map((optLetter, idx) => {
+                                    const optNum = idx + 1;
                                     const isImageOption = question.options_are_images;
                                     const optionText = question[`option_${optNum}`];
                                     const optionImage = api.getFileUrl(question[`option_${optNum}_image`]);
                                     const optionLabel = question[`option_${optNum}_label`];
-                                    const isSelected = answers[question.name] === String(optNum);
+                                    const isSelected = answers[question.name] === optLetter;
 
                                     if (!optionText && !optionImage) return null;
 
                                     return (
                                         <div
-                                            key={optNum}
+                                            key={optLetter}
                                             className={`option-item ${isSelected ? 'selected' : ''}`}
-                                            onClick={() => handleAnswer(question.name, String(optNum))}
+                                            onClick={() => handleAnswer(question.name, optLetter)}
                                         >
                                             <input
                                                 type="radio"
                                                 name={`q_${question.name}`}
                                                 checked={isSelected}
-                                                onChange={() => handleAnswer(question.name, String(optNum))}
+                                                onChange={() => handleAnswer(question.name, optLetter)}
                                             />
+                                            <span className="option-letter">{optLetter}.</span>
 
                                             {isImageOption && optionImage ? (
                                                 <div>
-                                                    <img src={optionImage} alt={`Option ${optNum}`} className="option-image" />
+                                                    <img src={optionImage} alt={`Option ${optLetter}`} className="option-image" />
                                                     {optionLabel && <div className="option-text">{optionLabel}</div>}
                                                 </div>
                                             ) : (
@@ -1250,7 +1265,19 @@
                     {/* Question Tabs and Navigation Buttons */}
                     <div className="question-tabs-container">
                         <div className="tabs-and-buttons">
-                            <div className="nav-btn-left">
+                            <div className="question-tabs">
+                                {examData.questions.map((q, idx) => (
+                                    <div
+                                        key={q.name}
+                                        className={`question-tab ${idx === currentQuestion ? 'active' : ''} ${answers[q.name] ? 'answered' : ''}`}
+                                        onClick={() => setCurrentQuestion(idx)}
+                                    >
+                                        {idx + 1}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="nav-btn-right">
                                 <button
                                     className="btn btn-primary btn-nav"
                                     onClick={() => setCurrentQuestion(q => Math.max(0, q - 1))}
@@ -1265,21 +1292,6 @@
                                 >
                                     Next <i className="fas fa-chevron-right ms-1"></i>
                                 </button>
-                            </div>
-
-                            <div className="question-tabs">
-                                {examData.questions.map((q, idx) => (
-                                    <div
-                                        key={q.name}
-                                        className={`question-tab ${idx === currentQuestion ? 'active' : ''} ${answers[q.name] ? 'answered' : ''}`}
-                                        onClick={() => setCurrentQuestion(idx)}
-                                    >
-                                        {idx + 1}
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="nav-btn-right">
                                 <button
                                     className="btn btn-finalize btn-nav"
                                     onClick={() => setShowConfirmModal(true)}
@@ -1359,9 +1371,9 @@
                 }
             };
 
-            const getOptionClass = (answer, optionNum) => {
-                const isSelected = String(answer.selected_answer) === String(optionNum);
-                const isCorrect = String(answer.correct_answer) === String(optionNum);
+            const getOptionClass = (answer, optLetter) => {
+                const isSelected = String(answer.selected_answer) === optLetter;
+                const isCorrect = String(answer.correct_answer) === optLetter;
 
                 let classes = 'preview-option';
                 if (isCorrect) {
@@ -1476,7 +1488,8 @@
                                     )}
 
                                     <div className="preview-options">
-                                        {[1, 2, 3].map(optNum => {
+                                        {['A', 'B', 'C'].map((optLetter, idx) => {
+                                            const optNum = idx + 1;
                                             const optionText = answer[`option_${optNum}`];
                                             const optionImage = answer[`option_${optNum}_image`];
                                             const optionLabel = answer[`option_${optNum}_label`];
@@ -1485,16 +1498,16 @@
 
                                             return (
                                                 <div
-                                                    key={optNum}
-                                                    className={getOptionClass(answer, optNum)}
+                                                    key={optLetter}
+                                                    className={getOptionClass(answer, optLetter)}
                                                 >
                                                     <div className="preview-option-marker">
-                                                        {String(answer.correct_answer) === String(optNum) ? (
+                                                        {String(answer.correct_answer) === optLetter ? (
                                                             <i className="fas fa-check"></i>
-                                                        ) : String(answer.selected_answer) === String(optNum) ? (
+                                                        ) : String(answer.selected_answer) === optLetter ? (
                                                             <i className="fas fa-times"></i>
                                                         ) : (
-                                                            optNum
+                                                            optLetter
                                                         )}
                                                     </div>
                                                     <div className="preview-option-content">
@@ -1502,7 +1515,7 @@
                                                             <div className="d-flex align-items-center">
                                                                 <img
                                                                     src={api.getFileUrl(optionImage)}
-                                                                    alt={`Option ${optNum}`}
+                                                                    alt={`Option ${optLetter}`}
                                                                     className="preview-option-image"
                                                                 />
                                                                 {optionLabel && <span>{optionLabel}</span>}
