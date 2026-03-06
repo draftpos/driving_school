@@ -65,7 +65,7 @@
   },
   {
    "fieldname": "option_1",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Option A",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
@@ -87,7 +87,7 @@
   },
   {
    "fieldname": "option_2",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Option B",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
@@ -109,7 +109,7 @@
   },
   {
    "fieldname": "option_3",
-   "fieldtype": "Data",
+   "fieldtype": "Text",
    "label": "Option C",
    "mandatory_depends_on": "eval:!doc.options_are_images"
   },
