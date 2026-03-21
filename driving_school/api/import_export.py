@@ -6,6 +6,24 @@ from frappe import _
 import json
 
 
+ANSWER_MAP = {
+	"1": "A",
+	"2": "B",
+	"3": "C",
+	"A": "A",
+	"B": "B",
+	"C": "C"
+}
+
+
+def _normalize_answer(value):
+	"""Normalize imported answer values to A/B/C."""
+	if value in (None, ""):
+		return "A"
+
+	return ANSWER_MAP.get(str(value).strip().upper(), "A")
+
+
 @frappe.whitelist()
 def export_questions(exam=None):
 	"""Export questions as JSON"""
@@ -83,7 +101,7 @@ def import_questions(questions_json, exam=None):
 				"option_3": q.get("option_3") or (q.get("options", [None, None, None])[2] if q.get("options") else None),
 				"option_3_image": q.get("option_3_image"),
 				"option_3_label": q.get("option_3_label"),
-				"correct_answer": str(q.get("correct_answer", "1"))
+				"correct_answer": _normalize_answer(q.get("correct_answer", "A"))
 			})
 			question.insert(ignore_permissions=True)
 			imported += 1
@@ -181,7 +199,7 @@ def import_exams(exams_json):
 						"option_3": q.get("option_3"),
 						"option_3_image": q.get("option_3_image"),
 						"option_3_label": q.get("option_3_label"),
-						"correct_answer": str(q.get("correct_answer", "1"))
+						"correct_answer": _normalize_answer(q.get("correct_answer", "A"))
 					})
 					question.insert(ignore_permissions=True)
 					imported_questions += 1

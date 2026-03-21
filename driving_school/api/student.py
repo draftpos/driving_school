@@ -8,6 +8,24 @@ import random
 from datetime import datetime
 
 
+ANSWER_MAP = {
+	"1": "A",
+	"2": "B",
+	"3": "C",
+	"A": "A",
+	"B": "B",
+	"C": "C"
+}
+
+
+def _normalize_answer(value):
+	"""Normalize answer values to A/B/C for consistent validation and scoring."""
+	if value in (None, ""):
+		return ""
+
+	return ANSWER_MAP.get(str(value).strip().upper(), str(value).strip().upper())
+
+
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_settings():
 	"""Get public driving school settings"""
@@ -239,14 +257,15 @@ def submit_exam(attempt_id, answers):
 	correct_count = 0
 	for answer_data in answers:
 		question_name = answer_data.get("question")
-		selected_answer = answer_data.get("selected_answer")
+		selected_answer = _normalize_answer(answer_data.get("selected_answer"))
 
 		if not question_name:
 			continue
 
 		# Get correct answer from database
 		question = frappe.get_doc("Driving School Question", question_name)
-		is_correct = str(selected_answer) == str(question.correct_answer)
+		correct_answer = _normalize_answer(question.correct_answer)
+		is_correct = selected_answer == correct_answer
 
 		if is_correct:
 			correct_count += 1
@@ -254,8 +273,8 @@ def submit_exam(attempt_id, answers):
 		# Add answer to attempt
 		attempt.append("answers", {
 			"question": question_name,
-			"selected_answer": str(selected_answer) if selected_answer else "",
-			"correct_answer": question.correct_answer,
+			"selected_answer": selected_answer,
+			"correct_answer": correct_answer,
 			"is_correct": is_correct
 		})
 

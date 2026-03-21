@@ -33,7 +33,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Selected Answer",
-   "options": "\n1\n2\n3"
+    "options": "\nA\nB\nC"
   },
   {
    "fetch_from": "question.correct_answer",
