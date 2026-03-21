@@ -1,0 +1,14 @@
+And to convert existing questions from 1,2,3 to A,B,C:
+
+
+bench --site erp1119.havano.cloud console
+Then run these two commands separately:
+
+
+frappe.db.sql("UPDATE `tabDriving School Question` SET correct_answer = CASE correct_answer WHEN '1' THEN 'A' WHEN '2' THEN 'B' WHEN '3' THEN 'C' ELSE correct_answer END")
+
+frappe.db.commit()
+Then exit:
+
+
+exit()
